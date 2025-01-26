@@ -1,0 +1,12 @@
+{
+  "compileOnSave": true,
+  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "strict": true,
+    "target": "ESNext",
+    "skipLibCheck": true,
+    "types": ["@cloudflare/workers-types"],
+    "declaration": true
+  }
+}
