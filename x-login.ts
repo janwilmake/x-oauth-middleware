@@ -53,9 +53,11 @@ export default {
       const headers = new Headers({
         Location: `https://x.com/i/oauth2/authorize?response_type=code&client_id=${
           env.X_CLIENT_ID
-        }&redirect_uri=${encodeURIComponent(env.X_REDIRECT_URI)}&scope=${
-          scope || "users.read"
-        }&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=S256`,
+        }&redirect_uri=${encodeURIComponent(
+          env.X_REDIRECT_URI,
+        )}&scope=${encodeURIComponent(
+          scope || "users.read follows.read tweet.read offline.access",
+        )}&state=${state}&code_challenge=${codeChallenge}&code_challenge_method=S256`,
       });
 
       headers.append(

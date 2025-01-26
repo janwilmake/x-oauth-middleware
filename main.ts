@@ -22,20 +22,25 @@ export default {
     ) {
       try {
         // Fetch user data from Twitter API
-        const userResponse = await fetch("https://api.x.com/2/users/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
+        const userResponse = await fetch(
+          "https://api.x.com/2/users/me?user.fields=profile_image_url,most_recent_tweet_id&expansions=most_recent_tweet_id",
+
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
           },
-        });
+        );
 
         if (!userResponse.ok) {
-          throw new Error(`X API error: ${userResponse.status}`);
+          throw new Error(
+            `X API error: ${userResponse.status} ${await userResponse.text()}`,
+          );
         }
 
         const userData: any = await userResponse.json();
         const { name, username, profile_image_url } = userData.data;
-
         return new Response(
           html`
             <!DOCTYPE html>
