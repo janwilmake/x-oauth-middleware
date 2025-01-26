@@ -25,3 +25,10 @@ You can then create an offering for your audience, they just need to authenticat
 # Idea 2: open source my tweets
 
 If i have this as a dataset, I can do much more! If people I follow do it too, we can do much cooler shit.
+
+Interesting data:
+
+- my bookmarks
+- my pins
+- what i like/retweet/comment
+- my tweets and insights
