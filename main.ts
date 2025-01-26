@@ -16,10 +16,7 @@ export default {
 
     const accessToken = xAccessToken || url.searchParams.get("apiKey");
 
-    if (
-      url.pathname === "/dashboard" ||
-      (accessToken && !url.searchParams.get("home"))
-    ) {
+    if (url.pathname === "/dashboard") {
       try {
         // Fetch user data from Twitter API
         const userResponse = await fetch(
