@@ -1,3 +1,2 @@
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-# use `npx wrangler secret put GITHUB_CLIENT_XXX` to put the secrets
+X_CLIENT_ID=
+X_CLIENT_SECRET=
