@@ -42,6 +42,18 @@ async function generateCodeChallenge(codeVerifier: string): Promise<string> {
 export const middleware = async (request: Request, env: Env) => {
   const url = new URL(request.url);
 
+  if (url.pathname === "/logout") {
+    const url = new URL(request.url);
+    const redirectTo = url.searchParams.get("redirect_to") || "/";
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: redirectTo,
+        "Set-Cookie":
+          "x_access_token=; HttpOnly; Secure; SameSite=Lax; Max-Age=0; Path=/",
+      },
+    });
+  }
   // Login page route
   if (url.pathname === "/login") {
     const scope = url.searchParams.get("scope");

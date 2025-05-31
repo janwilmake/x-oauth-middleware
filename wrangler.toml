@@ -1,8 +1,12 @@
 name = "x-login"
-main = "main.ts"
+main = "template.ts"
 compatibility_date = "2025-01-25"
 
 routes = [
   { pattern = "xlogin.uithub.com", custom_domain = true },
   { pattern = "x.smootherauth.com", custom_domain = true }
 ]
+
+[vars]
+X_REDIRECT_URI = "https://x.smootherauth.com/callback"
+LOGIN_REDIRECT_URI = "/dashboard"
