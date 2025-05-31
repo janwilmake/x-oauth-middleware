@@ -1,4 +1,10 @@
 {
+  "name": "smootherauth-x",
+  "version": "0.0.1",
+  "main": "middleware.ts",
+  "files": [
+    "middleware.ts"
+  ],
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250124.3"
   }

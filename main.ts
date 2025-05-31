@@ -1,8 +1,8 @@
-import login, { Env, html } from "./x-login";
+import { Env, html, middleware } from "./middleware";
 
 export default {
   fetch: async (request: Request, env: Env) => {
-    const response = await login.fetch(request, env);
+    const response = await middleware(request, env);
     if (response) return response;
     const url = new URL(request.url);
     const cookie = request.headers.get("Cookie");

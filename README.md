@@ -1,36 +1,18 @@
-# X oauth Login on Cloudflare
+[![](https://badge.forgithub.com/janwilmake/x-oauth-middleware)](https://uithub.com/janwilmake/x-oauth-middleware?lines=false)
 
-This is the most simple version of x oauth.
+This is a template made from first principles, for secure login via X OAuth. Use this boilerplate fore easy creation of apps that require X login. If you like to combine this with DORM for sharded databases, see [x-dorm-template](https://github.com/janwilmake/x-dorm-template)
 
-To use it, ensure to create a x oauth client, then set .dev.vars and wrangler.toml alike with the Env variables required
+To use this:
 
-And navigate to /login from the homepage, with optional parameters ?scope=a,b,c
+- make a client at https://developer.x.com
+- make sure to provide the right "User authentication settings", specifically the callback URLs should include https://your-worker.com/callback
+- Ensure to get the OAuth client/secret, as highlighted below
+- gather all vars in both `.dev.vars` and `wrangler.toml`, and in your deployed secrets
 
-In localhost this won't work due to your hardcoded redirect url; It's better to simply set your localstorage manually.
+![](1.png)
 
-# IDEA: Sponsorware
+![](2.png)
 
-[Tweet](https://x.com/janwilmake/status/1883363691136946295)
+You can add as many callbacks as you want (for all your X oauthed workers)!
 
-use this as easy app onboarding where the we request the user to pay via `X subscriptions`
-
-requires 1.6M organic impressions and 2000 verified followers
-
-https://docs.x.com/x-api/enterprise-gnip-2.0/fundamentals/account-activity#managing-subscribed-users
-
-https://docs.github.com/en/rest/using-the-rest-api/github-event-types?apiVersion=2022-11-28#sponsorshipevent
-
-You can then create an offering for your audience, they just need to authenticate with a single button to use your product.
-
-[Sponsorware](https://calebporzio.com/sponsorware)!
-
-# Idea 2: open source my tweets
-
-If i have this as a dataset, I can do much more! If people I follow do it too, we can do much cooler shit.
-
-Interesting data:
-
-- my bookmarks
-- my pins
-- what i like/retweet/comment
-- my tweets and insights
+![](3.png)
