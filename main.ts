@@ -1,3 +1,4 @@
+// You can either copy the middleware or install it and import from "smootherauth-x"
 import { Env, html, middleware } from "./middleware";
 
 export default {
