@@ -9,8 +9,6 @@ To use this:
 - Ensure to get the OAuth client/secret, as highlighted below
 - gather all vars in both `.dev.vars` and `wrangler.toml`, and in your deployed secrets
 
-[![](https://b.lmpify.com)](https://lmpify.com/)
-
 ![](1.png)
 
 ![](2.png)

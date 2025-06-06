@@ -35,6 +35,7 @@ async function generateCodeChallenge(codeVerifier: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(codeVerifier);
   const digest = await crypto.subtle.digest("SHA-256", data);
+  //@ts-ignore
   const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
   return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
@@ -141,10 +142,33 @@ export const middleware = async (request: Request, env: Env) => {
         throw new Error(`Twitter API responded with ${tokenResponse.status}`);
       }
 
-      const { access_token }: any = await tokenResponse.json();
+      const data: any = await tokenResponse.json();
       const headers = new Headers({
         Location: url.origin + (env.LOGIN_REDIRECT_URI || "/"),
       });
+
+      const { access_token } = data;
+
+      // NB: Here you can optionally retrieve the user or do other queries one-time. Beware of ratelimits on the free plan of X as they are very low.
+      // For `/users/me` it's 25 per 24h per user so you shouldn't request this too often!
+      // Another thing you can do here is set a KV to ensure we can verify the access_token. This way, you won't need to do it again.
+
+      // try {
+      //   const res = await fetch(
+      //     "https://api.x.com/2/users/me?user.fields=profile_image_url",
+      //     {
+      //       headers: { Authorization: `Bearer ${access_token}` },
+      //     },
+      //   );
+      //   const {
+      //     data,
+      //   }: {
+      //     data: { name: string; username: string; profile_image_url: string };
+      //   } = await res.json();
+
+      // } catch {
+      //   console.log("Could not get the data");
+      // }
 
       // Set access token cookie and clear temporary cookies
       headers.append(
