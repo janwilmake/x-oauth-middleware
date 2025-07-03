@@ -139,12 +139,16 @@ export const middleware = async (request: Request, env: Env) => {
       );
 
       if (!tokenResponse.ok) {
-        throw new Error(`Twitter API responded with ${tokenResponse.status}`);
+        throw new Error(
+          `Twitter API responded with ${
+            tokenResponse.status
+          } - ${await tokenResponse.text()}`,
+        );
       }
 
       const data: any = await tokenResponse.json();
       const headers = new Headers({
-        Location: url.origin + (env.LOGIN_REDIRECT_URI || "/"),
+        Location: url.origin + (env.CALLBACK_REDIRECT_URI || "/"),
       });
 
       const { access_token } = data;
@@ -192,10 +196,6 @@ export const middleware = async (request: Request, env: Env) => {
             <body>
               <h1>Twitter Login Failed</h1>
               <p>${error instanceof Error ? error.message : "Unknown error"}</p>
-              <script>
-                alert("Twitter login failed");
-                window.location.href = "/";
-              </script>
             </body>
           </html>
         `,
