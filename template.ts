@@ -1,4 +1,4 @@
-import { Env, middleware } from "./simplerauth-x-middleware";
+import { Env, middleware } from "./simplerauth-x";
 
 export default {
   fetch: async (request: Request, env: Env) => {

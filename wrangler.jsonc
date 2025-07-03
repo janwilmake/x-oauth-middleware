@@ -1,0 +1,8 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "x-oauth-middleware",
+  "compatibility_date": "2025-06-05",
+  "main": "template.ts",
+  "routes": [{ "pattern": "x.simplerauth.com", "custom_domain": true }],
+  "env": { "staging": { "routes": [] } }
+}

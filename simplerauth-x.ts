@@ -42,7 +42,8 @@ async function generateCodeChallenge(codeVerifier: string): Promise<string> {
 
 export const middleware = async (request: Request, env: Env) => {
   const url = new URL(request.url);
-
+  const isLocalhost = url.hostname === "localhost";
+  const securePart = isLocalhost ? "" : "Secure; ";
   if (
     !env.X_CLIENT_ID ||
     !env.X_CLIENT_SECRET ||
@@ -67,8 +68,7 @@ CALLBACK_REDIRECT_URI = "/dashboard"`,
       status: 302,
       headers: {
         Location: redirectTo,
-        "Set-Cookie":
-          "x_access_token=; HttpOnly; Secure; SameSite=Lax; Max-Age=0; Path=/",
+        "Set-Cookie": `x_access_token=; HttpOnly; ${securePart}SameSite=Lax; Max-Age=0; Path=/`,
       },
     });
   }
@@ -91,11 +91,11 @@ CALLBACK_REDIRECT_URI = "/dashboard"`,
 
     headers.append(
       "Set-Cookie",
-      `x_oauth_state=${state}; HttpOnly; Path=/; Secure; SameSite=Lax; Max-Age=600`,
+      `x_oauth_state=${state}; HttpOnly; Path=/; ${securePart}SameSite=Lax; Max-Age=600`,
     );
     headers.append(
       "Set-Cookie",
-      `x_code_verifier=${codeVerifier}; HttpOnly; Path=/; Secure; SameSite=Lax; Max-Age=600`,
+      `x_code_verifier=${codeVerifier}; HttpOnly; Path=/; ${securePart}SameSite=Lax; Max-Age=600`,
     );
 
     return new Response("Redirecting", { status: 307, headers });
@@ -200,14 +200,14 @@ CALLBACK_REDIRECT_URI = "/dashboard"`,
         "Set-Cookie",
         `x_access_token=${encodeURIComponent(
           access_token,
-        )}; HttpOnly; Path=/; Secure; SameSite=Lax; Max-Age=34560000`,
+        )}; HttpOnly; Path=/; ${securePart}SameSite=Lax; Max-Age=34560000`,
       );
       if (refresh_token) {
         headers.append(
           "Set-Cookie",
           `x_refresh_token=${encodeURIComponent(
             refresh_token,
-          )}; HttpOnly; Path=/; Secure; SameSite=Lax; Max-Age=34560000`,
+          )}; HttpOnly; Path=/; ${securePart}SameSite=Lax; Max-Age=34560000`,
         );
       }
       headers.append("Set-Cookie", `x_oauth_state=; Max-Age=0`);

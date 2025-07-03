@@ -1,4 +1,4 @@
 X_CLIENT_ID=
 X_CLIENT_SECRET=
-X_REDIRECT_URI = "https://x.simplerauth.com/callback"
+X_REDIRECT_URI = "http://localhost:8787/callback"
 CALLBACK_REDIRECT_URI = "/dashboard"
