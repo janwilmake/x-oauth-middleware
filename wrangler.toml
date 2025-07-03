@@ -1,0 +1,7 @@
+name = "x-oauth-middleware"
+main = "template.ts"
+compatibility_date = "2025-01-25"
+
+routes = [
+  { pattern = "x.simplerauth.com", custom_domain = true }
+]
