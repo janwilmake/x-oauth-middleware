@@ -43,6 +43,23 @@ async function generateCodeChallenge(codeVerifier: string): Promise<string> {
 export const middleware = async (request: Request, env: Env) => {
   const url = new URL(request.url);
 
+  if (
+    !env.X_CLIENT_ID ||
+    !env.X_CLIENT_SECRET ||
+    !env.X_REDIRECT_URI ||
+    !env.CALLBACK_REDIRECT_URI
+  ) {
+    return new Response(
+      `Please ensure you have all environment variables set up: 
+      
+      
+X_CLIENT_ID=YOUR_ID
+X_CLIENT_SECRET=YOUR_SECRET
+X_REDIRECT_URI = "https://yoursite.com/callback"
+CALLBACK_REDIRECT_URI = "/dashboard"`,
+      { status: 500 },
+    );
+  }
   if (url.pathname === "/logout") {
     const url = new URL(request.url);
     const redirectTo = url.searchParams.get("redirect_to") || "/";
@@ -126,10 +143,10 @@ export const middleware = async (request: Request, env: Env) => {
           Authorization: `Basic ${btoa(
             `${env.X_CLIENT_ID}:${env.X_CLIENT_SECRET}`,
           )}`,
-          "User-Agent": "X-OAuth-Middleware/0.0.2",
         },
         body: new URLSearchParams({
           code: code || "",
+          client_id: env.X_CLIENT_ID,
           grant_type: "authorization_code",
           redirect_uri: env.X_REDIRECT_URI,
           code_verifier: codeVerifier,
@@ -155,7 +172,7 @@ export const middleware = async (request: Request, env: Env) => {
         Location: url.origin + (env.CALLBACK_REDIRECT_URI || "/"),
       });
 
-      const { access_token } = data;
+      const { access_token, refresh_token } = data;
 
       // NB: Here you can optionally retrieve the user or do other queries one-time. Beware of ratelimits on the free plan of X as they are very low.
       // For `/users/me` it's 25 per 24h per user so you shouldn't request this too often!
@@ -185,6 +202,14 @@ export const middleware = async (request: Request, env: Env) => {
           access_token,
         )}; HttpOnly; Path=/; Secure; SameSite=Lax; Max-Age=34560000`,
       );
+      if (refresh_token) {
+        headers.append(
+          "Set-Cookie",
+          `x_refresh_token=${encodeURIComponent(
+            refresh_token,
+          )}; HttpOnly; Path=/; Secure; SameSite=Lax; Max-Age=34560000`,
+        );
+      }
       headers.append("Set-Cookie", `x_oauth_state=; Max-Age=0`);
       headers.append("Set-Cookie", `x_code_verifier=; Max-Age=0`);
 
