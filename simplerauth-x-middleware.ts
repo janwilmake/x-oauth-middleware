@@ -128,6 +128,7 @@ export const middleware = async (request: Request, env: Env) => {
             Authorization: `Basic ${btoa(
               `${env.X_CLIENT_ID}:${env.X_CLIENT_SECRET}`,
             )}`,
+            "User-Agent": "X-OAuth-Middleware/0.0.2",
           },
           body: new URLSearchParams({
             code: code || "",
@@ -137,16 +138,22 @@ export const middleware = async (request: Request, env: Env) => {
           }),
         },
       );
+      const responseText = await tokenResponse.text();
 
       if (!tokenResponse.ok) {
+        console.log("Response status:", tokenResponse.status);
+        console.log(
+          "Response headers:",
+          Object.fromEntries(tokenResponse.headers.entries()),
+        );
+        console.log("Response body:", responseText);
+
         throw new Error(
-          `Twitter API responded with ${
-            tokenResponse.status
-          } - ${await tokenResponse.text()}`,
+          `Twitter API responded with ${tokenResponse.status} - ${responseText}`,
         );
       }
 
-      const data: any = await tokenResponse.json();
+      const data: any = JSON.parse(responseText);
       const headers = new Headers({
         Location: url.origin + (env.CALLBACK_REDIRECT_URI || "/"),
       });
