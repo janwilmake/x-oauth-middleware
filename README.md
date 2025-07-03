@@ -16,3 +16,6 @@ To use this:
 You can add as many callbacks as you want (for all your X oauthed workers)!
 
 ![](3.png)
+
+> [!WARNING]
+> X Free Plan has low ratelimits you should be aware of. Also there have been issues from my end when using this from cloudflare workers: https://x.com/janwilmake/status/1940654226138374256
