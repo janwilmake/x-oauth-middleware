@@ -1,9 +1,9 @@
 {
   "name": "simplerauth-x",
-  "version": "0.0.2",
-  "main": "simplerauth-x-middleware.ts",
+  "version": "0.0.3",
+  "main": "simplerauth-x.ts",
   "files": [
-    "simplerauth-x-middleware.ts"
+    "simplerauth-x.ts"
   ],
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250124.3"
