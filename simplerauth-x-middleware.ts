@@ -119,25 +119,22 @@ export const middleware = async (request: Request, env: Env) => {
 
     try {
       // Exchange code for access token
-      const tokenResponse = await fetch(
-        "https://api.twitter.com/2/oauth2/token",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Basic ${btoa(
-              `${env.X_CLIENT_ID}:${env.X_CLIENT_SECRET}`,
-            )}`,
-            "User-Agent": "X-OAuth-Middleware/0.0.2",
-          },
-          body: new URLSearchParams({
-            code: code || "",
-            redirect_uri: env.X_REDIRECT_URI,
-            grant_type: "authorization_code",
-            code_verifier: codeVerifier,
-          }),
+      const tokenResponse = await fetch("https://api.x.com/2/oauth2/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${btoa(
+            `${env.X_CLIENT_ID}:${env.X_CLIENT_SECRET}`,
+          )}`,
+          "User-Agent": "X-OAuth-Middleware/0.0.2",
         },
-      );
+        body: new URLSearchParams({
+          code: code || "",
+          grant_type: "authorization_code",
+          redirect_uri: env.X_REDIRECT_URI,
+          code_verifier: codeVerifier,
+        }),
+      });
       const responseText = await tokenResponse.text();
 
       if (!tokenResponse.ok) {
