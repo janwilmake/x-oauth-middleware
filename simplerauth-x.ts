@@ -133,12 +133,13 @@ CALLBACK_REDIRECT_URI = "/dashboard"`,
         },
       );
     }
-
+    console.log({ stateCookie, urlState, codeVerifier });
     try {
       // Exchange code for access token
-      const tokenResponse = await fetch("https://api.x.com/2/oauth2/token", {
+      const tokenResponse = await fetch(`https://api.x.com/2/oauth2/token`, {
         method: "POST",
         headers: {
+          // Host: "api.x.com",
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${btoa(
             `${env.X_CLIENT_ID}:${env.X_CLIENT_SECRET}`,
